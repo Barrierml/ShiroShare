@@ -1,0 +1,29 @@
+<RCC>
+  <qresource prefix="/image">
+    <file>cloud.png</file>
+    <file>friend.png</file>
+    <file>home.png</file>
+    <file>my.png</file>
+    <file>set.png</file>
+    <file>share.png</file>
+  </qresource>
+  <qresource prefix="/file">
+    <file>dir.png</file>
+    <file>excel-ext.png</file>
+    <file>gif-ext.png</file>
+    <file>htm-ext.png</file>
+    <file>jpg-ext.png</file>
+    <file>note-ext.png</file>
+    <file>pdf-ext.png</file>
+    <file>png-ext.png</file>
+    <file>ppt-ext.png</file>
+    <file>rar-ext.png</file>
+    <file>swf-ext.png</file>
+    <file>unknown-ext.png</file>
+    <file>url-ext.png</file>
+    <file>vidoe-ext.png</file>
+    <file>voice-ext.png</file>
+    <file>word-ext.png</file>
+    <file>zip-ext.png</file>
+  </qresource>
+</RCC>
