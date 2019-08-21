@@ -1,6 +1,6 @@
 import os
 from hashlib import md5
-import win32con, win32api,time,json
+import win32con, win32api,time,json,random,string,shutil
 """
 这个主要是自己写的关于文件操作的工具
 """
@@ -106,6 +106,11 @@ def Size(size:int):
     return str(GB) + "GB"
 def chuo_time(shijiancuo):
     return time.strftime("%Y-%m-%d %H:%M",time.localtime(shijiancuo))
+def GetFileEndTime(url):
+    if os.path.exists(url):
+        t = os.path.getmtime(url)
+        return t
+    return False
 def GetFileToJson(url):
     # 开始打算用eval但是考虑安全性还是用json来导入
     if os.path.exists(url):
@@ -136,5 +141,25 @@ def GetSettingFile(dir,suffix=".json"):
             if _suffix == suffix:
                 return GetFileToJson(os.path.join(dir,i))
     return False
+def Random_ID():
+    #生成一个随机的id
+    return "".join([random.choice(string.ascii_letters+string.digits+"1234567890") for i in range(20)])
+def CopyFile(url1,url2):
+    # 复制文件，这个只是不想再导一次包了
+    shutil.copyfile(url1,url2)
+def ListFiles(url):
+    a = []
+    All = os.listdir(url)
+    for i in All:
+        if os.path.isfile(os.path.join(url,i)):
+            a.append(i)
+    return a
+def rmdirs(url):
+    # 删除文件夹
+    shutil.rmtree(url)
+def MessageId():
+    # 返回一个数字id
+    return random.randint(0,10000)
 if __name__ == '__main__':
-    print(GetSettingFile("D:\英雄时刻\shiro_backup"))
+    print(MessageId())
+    pass

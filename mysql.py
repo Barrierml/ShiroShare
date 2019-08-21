@@ -1,11 +1,14 @@
 import sqlite3
 class mysql:
     def __init__(self,sqlname):
+        # 链接服务器
         self._con = sqlite3.connect(sqlname)
         self.cc = self._con.cursor()
     def commit(self):
+        # 提交更改
         self._con.commit()
     def table_is_in(self,table_name:str):
+        # 判断表格是否在数据库内
         command = "select * from sqlite_master where type = 'table' and name = '{}' ".format(table_name)
         self.cc.execute(command)
         if len(self.cc.fetchall()) == 0:
@@ -13,6 +16,8 @@ class mysql:
         else:
             return True
     def create_table(self,table_name:str,lie:dict):
+        # 创建表
+        # 例子: create_table("table_name",{"hahah":"TEXT"})
         if self.table_is_in(table_name):
             return False
         ll = ""
@@ -20,7 +25,6 @@ class mysql:
             ll += str(k) +' '+  str(v) + ","
         ll = ll[:-1]
         command = '''CREATE TABLE {} ({})'''.format(table_name,ll)
-        print(command)
         try:
             self.cc.execute(command)
         except Exception as e:
@@ -40,6 +44,7 @@ class mysql:
             self.commit()
             return True
     def insert(self,table_name,ll):
+        # 添加到表格内，ll为列表或字典
         if isinstance(ll,dict):
             sql_len = len(self.table_key(table_name))
             se_len = len(ll)
