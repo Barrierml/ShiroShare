@@ -1,4 +1,5 @@
 import sqlite3
+from os_cope import Random_ID
 class mysql:
     def __init__(self,sqlname):
         # 链接服务器
@@ -44,7 +45,10 @@ class mysql:
             self.commit()
             return True
     def insert(self,table_name,ll):
-        # 添加到表格内，ll为列表或字典
+        # 添加到表格内，ll为列表或字典，列表支持多个导入
+        # 例子 列表加入insert("User",[(id,name,ip)])
+        # 例子 字典添加insert("User",{"name":"123","12321":"213"})
+        # 标准添加语句 INSERT INTO COMPANY VALUES (7, 'James', 24, 'Houston', 10000.00 );
         if isinstance(ll,dict):
             sql_len = len(self.table_key(table_name))
             se_len = len(ll)
@@ -59,6 +63,11 @@ class mysql:
             self._con.execute(sql)
             self.commit()
         else:
+            """"executemany(templet,args)
+            　　templet : sql模板字符串,
+                例如     'insert into table(id,name) values(%s,%s)'
+　　              args: 模板字符串的参数，是一个列表，列表中的每一个元素必须是元组！！！ 
+                例如：  [(1,'小明'),(2,'zeke'),(3,'琦琦'),(4,'韩梅梅')] """
             sql_len = len(self.table_key(table_name))
             se_len = len(ll[0])
             if  sql_len != se_len:
@@ -78,4 +87,124 @@ class mysql:
                 5	pk	是否主键primary key,0否，1是
         """
         self.cc.execute("PRAGMA table_info({})".format(table_name))
+        re = []
+        for i in self.cc.fetchall():
+            re.append(i[1])
+        return re
+class ShiroSQL(mysql):
+    """主要管理用户列表,和文件列表"""
+    def __init__(self,name="ShiroDB"):
+        super(ShiroSQL,self).__init__(name)
+        # 如果不在数据库内就重新初始化
+        if not self.table_is_in("User"):
+            # 创建用户数据库
+            self.create_table("User",{
+                "_id":"TEXT",
+                "Name":"TEXT",
+                "ip":"TEXT",
+            })
+            # 创建文件数据库
+            self.create_table("Files",{
+                "_id":"TEXT",
+                "FileName":"TEXT",
+                "suffix":"TEXT",
+                "md5":"TEXT",
+                "belong_dir": "TEXT",
+                # 拥有者用id保存
+                "owner":"TEXT",
+                "abs_url":"TEXT",
+                "end_time":"TEXT"
+            })
+            # 创建文件夹
+            self.create_table("Dirs",{
+                "_id":"TEXT",
+                "owner":"TEXT",
+                "Name":"TEXT",
+                "abs_url":"TEXT",
+            })
+    def AddUser(self,id,name,ip):
+        # 添加用户
+        if self.InUsers(id):
+            self.insert("User",[(id,name,ip)])
+    def GetAllUser(self) -> list:
+        # 获取所有用户
+        self.cc.execute('select *from User')
         return self.cc.fetchall()
+    def ChangeUser(self,id,name=None,ip=None):
+        # 改变用户属性
+        if name == None and ip == None:
+            return
+        if name != None:
+            name = " Name = '"+ name + "'"
+        else:
+            name = ""
+        if ip != None:
+            ip = ",ip = '" + ip + "'"
+        else:
+            ip = ""
+        command = "update User set {} {}  where _id ='{}'".format(name,ip,id)
+        self.cc.execute(command)
+        self.commit()
+    def DelUser(self,id):
+        # 删除用户
+        command = "DELETE from User where _id='{}'".format(id)
+        self.cc.execute(command)
+        self.commit()
+    def AddFile(self,id,name,suffix,md5,belong_dir,owner,abs_url,endtime):
+        if not self.InFiles(id):
+            self.insert("Files",[(id,name,suffix,md5,belong_dir,owner,abs_url,endtime)])
+    def GetAllFile(self):
+        # 从文件库里面获取文件，数量按照Number
+        self.cc.execute('select *from Files')
+        return self.cc.fetchall()
+    def DelFile(self,id):
+        command = "DELETE from Files where _id='{}'".format(id)
+        self.cc.execute(command)
+        self.commit()
+    def InUsers(self,id):
+        command = "select * from User where _id = {}".format(id)
+        self.cc.execute(command)
+        if self.cc.fetchone():
+           return True
+        return False
+    def ChangeFile(self,id,data:dict=None):
+        # 改变文件属性
+        m =""
+        p = 1
+        ll = self.table_key("Files")
+        for k,v in data.items():
+            if k not in ll:
+                continue
+            if p == 1:
+                m += "{}='{}'".format(k,v)
+            else:
+                m += ",{}='{}'".format(k, v)
+            p += 1
+        if p == 1:
+            return
+        command = "update Files set {} where _id ='{}'".format(m,id)
+        print(command)
+        self.cc.execute(command)
+        self.commit()
+    def InFiles(self,id):
+        command = "select * from Files where _id = {}".format(id)
+        self.cc.execute(command)
+        if self.cc.fetchone():
+           return True
+        return False
+    def GetAllDir(self):
+        # 从文件库里面获取文件，数量按照Number
+        self.cc.execute('select *from Dirs')
+        return self.cc.fetchall()
+    def InDirs(self,id):
+        command = "select * from Dirs where _id = {}".format(id)
+        self.cc.execute(command)
+        if self.cc.fetchone():
+           return True
+        return False
+    def AddDir(self,id,owner,name,absurl):
+        self.insert("Dirs", [(id, owner, name, absurl)])
+if __name__ == '__main__':
+    cc = ShiroSQL()
+    print((cc.ChangeFile("123",{"23213":"21312321312","sdasd":"213213"})))
+    print(cc.GetAllFile())

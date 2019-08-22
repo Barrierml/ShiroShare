@@ -407,6 +407,7 @@ class Dir_Watch:
         for i in overage:
             q = File_Watch()
             q.Frist_Init(self.FileAddUrl(i), self.BackupUrl)
+            self.files.append(q)
         # 加载已存在文件
         for i in Config["FilesBackup"]:
             q = File_Watch()

@@ -141,9 +141,9 @@ def GetSettingFile(dir,suffix=".json"):
             if _suffix == suffix:
                 return GetFileToJson(os.path.join(dir,i))
     return False
-def Random_ID():
+def Random_ID(length=20):
     #生成一个随机的id
-    return "".join([random.choice(string.ascii_letters+string.digits+"1234567890") for i in range(20)])
+    return "".join([random.choice(string.ascii_letters+string.digits+"1234567890") for i in range(length)])
 def CopyFile(url1,url2):
     # 复制文件，这个只是不想再导一次包了
     shutil.copyfile(url1,url2)
