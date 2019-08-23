@@ -160,6 +160,14 @@ def rmdirs(url):
 def MessageId():
     # 返回一个数字id
     return random.randint(0,10000)
+def mkdir(url):
+    # 创建文件夹
+    if not os.path.exists(url):
+        os.mkdir(url)
+        return True
+    return False
+def path_join(a,b):
+    return os.path.join(a,b)
 if __name__ == '__main__':
     print(MessageId())
     pass

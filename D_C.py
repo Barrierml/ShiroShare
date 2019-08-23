@@ -415,6 +415,7 @@ class Dir_Watch:
                 self.files.append(q)
         # 保存一下更改的数据
         self.Updata_BackupJson()
+        # 清除不存在文件
         self.ClearBackupDir()
     def Updata_BackupJson(self):
         ll = {
@@ -452,6 +453,11 @@ class Dir_Watch:
                 p.Load_Config(os.path.join(self.BackupUrl,i))
                 del p
         gc.collect()
+    def search(self,id):
+        # 通过id查找,返回最新的备份文件目录
+        for i in self.files:
+            if i.id == id:
+                return i.Abs_url
 if __name__ == '__main__':
     w = Dir_Watch()
     w.INIT("D:\英雄时刻")

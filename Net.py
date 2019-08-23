@@ -1,6 +1,7 @@
 from PyQt5.QtCore import QThread,pyqtSignal
 import socket,time,select,json,math
 from queue import Queue
+import os_cope as oc
 import mysql
 HEAD = b"Shiro"
 RecvSocketPort = 6543
@@ -18,6 +19,7 @@ class ShiroNet(QThread):
     # 初始化完毕的信号
     InitFinsh = pyqtSignal()
     LoadBar = pyqtSignal(str)
+    GetFile = pyqtSignal(str)
     def __init__(self,data,Port=RecvSocketPort):
         super(ShiroNet,self).__init__()
         # 接收广播
@@ -31,7 +33,6 @@ class ShiroNet(QThread):
         self.sql = mysql.ShiroSQL()
         # 发送
         self.Send = SendMessage(self.data.get("id"))
-
     def GetJson(self,data:bytes):
         try:
             return json.loads(data.decode("utf-8"))
@@ -57,18 +58,17 @@ class ShiroNet(QThread):
         while True:
             # 堵塞接收
             try:
-                r, w, e = select.select(self.ReadableList, [], self.ReadableList)
+                r, w, fe = select.select(self.ReadableList, [], self.ReadableList)
                 for con in r:
                     data, addr = con.recvfrom(8192)
                     # 前5个字符不是固定就退出
                     if data[0:5] != HEAD:
                         continue
                     type = data[5:9]
-                    user = data[9:19]
                     # type不在支持列表内也退出
                     if type not in _method_map:
                         continue
-                    data = self.GetJson(data[19:])
+                    data = self.GetJson(data[9:])
                     _method_map[type](data, addr)
             except Exception as e:
                 print(e)
@@ -92,14 +92,19 @@ class ShiroNet(QThread):
         # 收到文件列表,加入数据库
         def g(o):
             # 这只是为了简化查询
-            data.get(o)
-        # 先判断文件夹是否存在
-        if self.sql.InDirs(g("DirId")):
-            return
-        else:
-            self.sql.AddDir(g("DirId"),g())
+            return data.get(o)
+        # 创建文件夹
+        url = oc.path_join(self.data.get("dir_url"),g("DirName"))
+        oc.mkdir(url)
+        self.sql.AddDir(g("DirId"),g("SelfId"),g("DirName"),url)
+        # 添加文件,发送FILE包请求文件传输
+        for i in g("Files"):
+            self.Send.SendTo(addr[0],"FILE",i.get("_id"))
     def on_FILE(self,data,addr):
-        pass
+        # 其他客户端请求文件,传回确认包，开启端口等待客户端链接,然后发送文件
+        file_id = data
+        ip = addr[0]
+
     def on_BEAT(self,data,addr):
         pass
     def on_CHEN(self,data,addr):
@@ -111,7 +116,7 @@ class ShiroNet(QThread):
         print(dd)
     def close(self):
         self.RecvSocket.close()
-class SendMessage():
+class SendMessage:
     """主要是用来发送或者广播消息
         经过查询资料，发现发送udp包不会阻塞,就不需要再开进程了
     """
@@ -119,15 +124,20 @@ class SendMessage():
         # 设置广播，还有发送信息的嵌套字
         self.SendSocket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
         self.SendSocket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        self.id = id
     def Broadcast(self,type:str,data:object):
         # 发送广播
-        bag = HEAD + self.id.encode("utf-8") + type.encode("utf-8") + json.dumps(data).encode("utf-8")
+        bag = HEAD  + type.encode("utf-8") + json.dumps(data).encode("utf-8")
         return self.SendSocket.sendto(bag,('<broadcast>',RecvSocketPort))
     def SendTo(self,ip,type:str,data:object):
         # 定向传输
-        bag = HEAD + self.id.encode("utf-8") +  type.encode("utf-8") + json.dumps(data).encode("utf-8")
+        bag = HEAD  +  type.encode("utf-8") + json.dumps(data).encode("utf-8")
         return self.SendSocket.sendto(bag, (ip, RecvSocketPort))
+
+class FileTransport:
+    """文件传输"""
+    def __init__(self,Queue):
+        # 传输queue
+        self.Queue = Queue
 
 if __name__ == '__main__':
     RecvSocket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

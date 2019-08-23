@@ -95,9 +95,10 @@ class Watch(QThread):
     def All_list_Send(self):
         # 整理自己所有文件，打包成dict,分块发送
         dd = {
+            "SelfId":self.data.get("id"),
             "DirId":self.model.id,
             "DirName":self.model.name,
-            "files":[]
+            "Files":[]
         }
         n = len(self.model.files)
         pp = math.ceil(n/20)
@@ -118,11 +119,16 @@ class Watch(QThread):
                 "end_time": i.EndBackupTime,
                 }
                 p.append(b)
-            dd["files"] = p
+            dd["Files"] = p
             # 因为不知道python的变量管理机制，被坑惨了
             # 我无论怎么传递参数都不变，才发现是python的指针问题，喷血。。。不过也算是解决了
             self.All.emit(dd.copy())
         del dd
+    def GetFile(self,id:str):
+        # 通过id查找到文件返回确认
+        url = self.model.search(id)
+        if url != None:
+            self.ReturnAck.emit(url)
 class MyHandler(FileSystemEventHandler):
     def __init__(self,queue:Queue):
         self.q = queue
