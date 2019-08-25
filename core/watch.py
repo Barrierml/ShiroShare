@@ -1,11 +1,11 @@
-import time,shutil,datetime,os,math
+import math
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-import os_cope as oc
 from PyQt5.QtCore import QThread,pyqtSignal
 from queue import Queue
-from D_C import *
+from core.model import *
 import threading
+
 # 设计思路是把监控和文件管理分开，防止文件处理时的卡顿
 # 子进程打开watchdog，子进程自己处理关于文件处理，复制，备份等需要阻塞的动作
 # 来防止watchdog在监控上的不及时，当文件发生改变再发给子进程处理
@@ -16,19 +16,14 @@ EVENT_TYPE_MOVED = 'moved'
 EVENT_TYPE_DELETED = 'deleted'
 EVENT_TYPE_CREATED = 'created'
 EVENT_TYPE_MODIFIED = 'modified'
-class Watch(QThread):
+class Watch(threading.Thread):
     """目前先只实现监控子文件的功能"""
-    # 各个信号
-    created = pyqtSignal(dict)
-    deleted = pyqtSignal(dict)
-    modified = pyqtSignal(dict)
-    moved = pyqtSignal(dict)
-    All = pyqtSignal(dict)
-    def __init__(self,url,data) -> None:
+    def __init__(self,url,queue) -> None:
         super(Watch,self).__init__()
-        # 自己的基本信息
-        self.data = data
         # 创建通讯queue
+        # 跟父进程通信
+        self.Queue = queue
+        # 和子进程通信
         self.q = Queue()
         # 初始化模型
         self.model = Dir_Watch()
@@ -45,7 +40,7 @@ class Watch(QThread):
         self.observer.start()
         #开启监控循环
         while True:
-            self.msleep(100)
+            time.sleep(0.1)
             if not self.q.empty():
                 event = self.q.get()
                 # 直接抄的watchdog的源码
@@ -92,10 +87,12 @@ class Watch(QThread):
         _, name, suffix = oc.get_file_all(event.src_path)
         if self.model.DelFile(name+suffix):
             print("删除一个文件{}".format(event.src_path))
+    def search(self,fileid):
+        # 通过id返回备份的文件
+        return self.model.search(fileid)
     def All_list_Send(self):
         # 整理自己所有文件，打包成dict,分块发送
         dd = {
-            "SelfId":self.data.get("id"),
             "DirId":self.model.id,
             "DirName":self.model.name,
             "Files":[]
@@ -115,26 +112,24 @@ class Watch(QThread):
                 "suffix": i.suffix,
                 "md5": i.md5,
                 "belong_dir": self.model.id,
-                "owner": self.data.get("id"),
-                "end_time": i.EndBackupTime,
+                "end_time": i.EndBackupTime
                 }
                 p.append(b)
             dd["Files"] = p
             # 因为不知道python的变量管理机制，被坑惨了
             # 我无论怎么传递参数都不变，才发现是python的指针问题，喷血。。。不过也算是解决了
-            self.All.emit(dd.copy())
-        del dd
-    def GetFile(self,id:str):
-        # 通过id查找到文件返回确认
-        url = self.model.search(id)
-        if url != None:
-            self.ReturnAck.emit(url)
+            self.Queue.put({
+                "type":"All_list",
+                "data":dd
+            })
 class MyHandler(FileSystemEventHandler):
     def __init__(self,queue:Queue):
         self.q = queue
     def on_any_event(self, event):
         self.q.put(event)
 if __name__ == "__main__":
-    w = Watch("C:\\Users\\Administrator\\Desktop")
+    print(os.getpid())
+    w = Watch("C:\\Users\\Administrator\\Desktop",Queue())
     w.start()
+    w.Get("123123")
     w.join()

@@ -1,5 +1,5 @@
 import random,string
-import os_cope as oc
+from tools import os_cope as oc
 import os,copy,gc,time
 class Abstract_File:
     """来储存还未实体化的文件"""
@@ -237,6 +237,7 @@ class File_Watch:
         self.suffix = Config["suffix"]
         self.md5 = Config["md5"]
         self.BackupList = Config["backup"]
+        self.EndBackupTime = Config["time"]
         # 读取出来的文件如果存在
         if os.path.exists(self.Abs_Url):
             # 获取属性，判断是否相同
@@ -457,7 +458,9 @@ class Dir_Watch:
         # 通过id查找,返回最新的备份文件目录
         for i in self.files:
             if i.id == id:
-                return i.Abs_url
+                # 返回绝对地址和md5和时间
+                return oc.path_join(i.BackupUrl,str(i.BackupList[-1].get("backup_name"))),i.BackupList[-1].get("md5"),i.BackupList[-1].get("time")
+        return False
 if __name__ == '__main__':
     w = Dir_Watch()
     w.INIT("D:\英雄时刻")

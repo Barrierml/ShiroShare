@@ -24,7 +24,7 @@ class ShiroShare_windows(QMainWindow, Ui_MWin):
     def _show(self):
         self.show()
         self.Watch_List = Watch("D:\英雄时刻",self.data)
-        self.NET = CA.ShiroNet(self.data,self.Watch_List.model,Port=6666)
+        self.NET = CA.ShiroNet(self.data,self.Watch_List.model)
         self.connectSlots()
         self.NET.start()
         self.Watch_List.start()
@@ -33,6 +33,13 @@ class ShiroShare_windows(QMainWindow, Ui_MWin):
         self.p = MetroCircleProgress()
         self.horizontalLayout_13.addWidget(self.p)
         self.p.setVisible(False)
+    def load_config(self):
+        # 软件设置
+        self.data = {
+            "name": "shiroshibe",
+            "id": oc.Random_ID(length=10),
+            "dir_url":"D:\备份"
+        }
     def connectSlots(self):
         # 刷新
         self.pushButton_5.clicked.connect(self.hhh)

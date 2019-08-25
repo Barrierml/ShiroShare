@@ -110,7 +110,7 @@ def GetFileEndTime(url):
     if os.path.exists(url):
         t = os.path.getmtime(url)
         return t
-    return False
+    return 1
 def GetFileToJson(url):
     # 开始打算用eval但是考虑安全性还是用json来导入
     if os.path.exists(url):
@@ -168,6 +168,59 @@ def mkdir(url):
     return False
 def path_join(a,b):
     return os.path.join(a,b)
+def RngPort(a:tuple):
+    # 从一段区间内返回一个端口
+    return random.randint(a[0],a[1])
+def remove(url):
+    if os.path.exists(url):
+        os.remove(url)
+        return True
+    return False
+class FileSendRaw:
+    """一个简单的文件读取器"""
+    def __init__(self,url):
+        self.opened = False
+        if os.path.exists(url):
+            self.f = open(url,"rb")
+            self.opened = True
+    def Get(self):
+        if self.opened:
+            w = self.f.read(100000)
+        else:
+            return
+        if w:
+            return w
+        else:
+            self.close()
+    def close(self):
+        self.f.close()
+        self.opened = False
+class FileRecvRaw:
+    """文件写入"""
+    def __init__(self,url,tt):
+        # 判断时间，如果自己的时间小于被修改文件的话就放弃，防止老文件覆盖新文件
+        self.opened = False
+        ttt = GetFileEndTime(url)
+        print(ttt,tt)
+        if ttt:
+            if ttt < tt:
+                try:
+                    self.f = open(url,"wb")
+                    self.opened = True
+                except Exception as e:
+                    print(e)
+                    self.close()
+    def write(self,data):
+        if not self.opened:
+            return False
+        if data == b"":
+            self.close()
+            return
+        return self.f.write(data)
+    def close(self):
+        self.f.close()
+        self.opened = False
 if __name__ == '__main__':
-    print(MessageId())
+    w = FileSendRaw("D:\\英雄时刻\\新建 DOCX 文档.docx")
+    print(w.Get())
     pass

@@ -1,9 +1,10 @@
-import sqlite3
-from os_cope import Random_ID
+import sqlite3,time
+
+
 class mysql:
     def __init__(self,sqlname):
         # 链接服务器
-        self._con = sqlite3.connect(sqlname)
+        self._con = sqlite3.connect(sqlname,check_same_thread=False)
         self.cc = self._con.cursor()
     def commit(self):
         # 提交更改
@@ -102,6 +103,7 @@ class ShiroSQL(mysql):
                 "_id":"TEXT",
                 "Name":"TEXT",
                 "ip":"TEXT",
+                "end_life_time":"TEXT",
             })
             # 创建文件数据库
             self.create_table("Files",{
@@ -121,28 +123,32 @@ class ShiroSQL(mysql):
                 "owner":"TEXT",
                 "Name":"TEXT",
                 "abs_url":"TEXT",
+                "end_time":"TEXT",
             })
     def AddUser(self,id,name,ip):
         # 添加用户
         if self.InUsers(id):
-            self.insert("User",[(id,name,ip)])
+            self.insert("User",[(id,name,ip,str(time.time()))])
     def GetAllUser(self) -> list:
         # 获取所有用户
         self.cc.execute('select *from User')
         return self.cc.fetchall()
-    def ChangeUser(self,id,name=None,ip=None):
-        # 改变用户属性
-        if name == None and ip == None:
+    def ChangeUser(self,id,data):
+        m =""
+        p = 1
+        ll = self.table_key("User")
+        for k,v in data.items():
+            if k not in ll:
+                continue
+            if p == 1:
+                m += "{}='{}'".format(k,v)
+            else:
+                m += ",{}='{}'".format(k, v)
+            p += 1
+        if p == 1:
             return
-        if name != None:
-            name = " Name = '"+ name + "'"
-        else:
-            name = ""
-        if ip != None:
-            ip = ",ip = '" + ip + "'"
-        else:
-            ip = ""
-        command = "update User set {} {}  where _id ='{}'".format(name,ip,id)
+        command = "update User set {} where _id ='{}'".format(m,id)
+        print(command)
         self.cc.execute(command)
         self.commit()
     def DelUser(self,id):
@@ -162,11 +168,11 @@ class ShiroSQL(mysql):
         self.cc.execute(command)
         self.commit()
     def InUsers(self,id):
-        command = "select * from User where _id = {}".format(id)
+        command = "select * from User where _id = '{}'".format(id)
         self.cc.execute(command)
         if self.cc.fetchone():
-           return True
-        return False
+           return False
+        return True
     def ChangeFile(self,id,data:dict=None):
         # 改变文件属性
         m =""
@@ -187,24 +193,46 @@ class ShiroSQL(mysql):
         self.cc.execute(command)
         self.commit()
     def InFiles(self,id):
-        command = "select * from Files where _id = {}".format(id)
+        command = "select * from Files where _id = '{}'".format(id)
         self.cc.execute(command)
         if self.cc.fetchone():
            return True
         return False
+    def GetInDirFIles(self,dirid):
+        # 获取某文件夹内所有文件
+        command = "select * from Files where belong_dir = '{}'".format(dirid)
+        self.cc.execute(command)
+        p = []
+        for i in self.cc.fetchall():
+            p.append({
+                "_id":i[0],
+                "FileName":i[1],
+                "suffix":i[2],
+                "md5":i[3],
+                "belong_dir": i[4],
+                "owner":i[5],
+                "abs_url":i[6],
+                "end_time":i[7]
+            })
+        return p
     def GetAllDir(self):
         # 从文件库里面获取文件，数量按照Number
         self.cc.execute('select *from Dirs')
         return self.cc.fetchall()
     def InDirs(self,id):
-        command = "select * from Dirs where _id = {}".format(id)
+        command = "select * from Dirs where _id = '{}'".format(id)
         self.cc.execute(command)
         if self.cc.fetchone():
            return True
         return False
     def AddDir(self,id,owner,name,absurl):
-        self.insert("Dirs", [(id, owner, name, absurl)])
+        self.insert("Dirs", [(id, owner, name, absurl,time.time())])
+    def GetDirName(self,id):
+        if self.InDirs(id):
+            command = "select * from Dirs where _id = '{}'".format(id)
+            self.cc.execute(command)
+            return self.cc.fetchone()[1]
+        return False
 if __name__ == '__main__':
-    cc = ShiroSQL()
-    print((cc.ChangeFile("123",{"23213":"21312321312","sdasd":"213213"})))
+    cc = ShiroSQL("../123")
     print(cc.GetAllFile())
