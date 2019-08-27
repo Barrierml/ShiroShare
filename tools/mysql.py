@@ -127,9 +127,8 @@ class ShiroSQL(mysql):
             })
     def AddUser(self,id,name,ip):
         # 添加用户
-        if self.InUsers(id):
-            self.insert("User",[(id,name,ip,str(time.time()))])
-    def GetAllUser(self) -> list:
+        self.insert("User",[(id,name,ip,str(time.time()))])
+    def GetAllUser(self):
         # 获取所有用户
         self.cc.execute('select *from User')
         return self.cc.fetchall()
@@ -137,6 +136,7 @@ class ShiroSQL(mysql):
         m =""
         p = 1
         ll = self.table_key("User")
+        data["end_life_time"] = time.time()
         for k,v in data.items():
             if k not in ll:
                 continue
@@ -148,7 +148,6 @@ class ShiroSQL(mysql):
         if p == 1:
             return
         command = "update User set {} where _id ='{}'".format(m,id)
-        print(command)
         self.cc.execute(command)
         self.commit()
     def DelUser(self,id):
@@ -159,6 +158,8 @@ class ShiroSQL(mysql):
     def AddFile(self,id,name,suffix,md5,belong_dir,owner,abs_url,endtime):
         if not self.InFiles(id):
             self.insert("Files",[(id,name,suffix,md5,belong_dir,owner,abs_url,endtime)])
+            return True
+        return False
     def GetAllFile(self):
         # 从文件库里面获取文件，数量按照Number
         self.cc.execute('select *from Files')
@@ -171,8 +172,8 @@ class ShiroSQL(mysql):
         command = "select * from User where _id = '{}'".format(id)
         self.cc.execute(command)
         if self.cc.fetchone():
-           return False
-        return True
+           return True
+        return False
     def ChangeFile(self,id,data:dict=None):
         # 改变文件属性
         m =""
@@ -231,8 +232,8 @@ class ShiroSQL(mysql):
         if self.InDirs(id):
             command = "select * from Dirs where _id = '{}'".format(id)
             self.cc.execute(command)
-            return self.cc.fetchone()[1]
+            return self.cc.fetchone()[2]
         return False
 if __name__ == '__main__':
-    cc = ShiroSQL("../123")
-    print(cc.GetAllFile())
+    cc = ShiroSQL("D:\\ShiroShare\\222")
+    print(cc.InUsers("123"))

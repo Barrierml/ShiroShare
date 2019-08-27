@@ -270,7 +270,7 @@ class File_Watch:
         self.Backup()
         # 保存配置
         self.Updata_BackupJson()
-        return True
+        return self
     def Backup(self):
         if time.time() - self.EndBackupTime < 1:
             return
@@ -293,25 +293,29 @@ class File_Watch:
         oc.CopyFile(self.Abs_Url,b)
         self.EndBackupTime = time.time()
         # 完成以上动作后把数据写到备份记录里
-        self.BackupList.append({
+        w = {
+            "file_id":self.id,
             "backup_name":backup_name,
             "name":self.name,
             "suffix":self.suffix,
             "time":ttt,
             "size":self.Size,
             "md5":self.md5,
-        })
+        }
+        self.BackupList.append(w)
         # 保存备份记录
         self.Updata_BackupJson()
         # 传递参数到下一步
         self.NetSend(b)
+        return self
     def Updata_BackupJson(self):
         ll = {
             "id":self.id,
             "name":self.name,
             "suffix":self.suffix,
             "md5":self.md5,
-            "backup":self.BackupList
+            "backup":self.BackupList,
+            "time":self.EndBackupTime,
         }
         oc.SetJsonToFile(self.BackupJson,ll)
     def NetSend(self,BackupFileUrl):
@@ -433,9 +437,11 @@ class Dir_Watch:
     def AddFile(self,fileurl):
         # 添加文件到备份中
         q = File_Watch()
-        if q.Frist_Init(fileurl,self.BackupUrl):
+        w = q.Frist_Init(fileurl, self.BackupUrl)
+        if w:
             self.files.append(q)
             self.Updata_BackupJson()
+            return q
     def DelFile(self,filename):
         # 删除文件
         f = self.FindFile(filename)
@@ -443,7 +449,7 @@ class Dir_Watch:
             f.Drestory()
             self.files.remove(f)
             self.Updata_BackupJson()
-            return True
+            return f.id
         return False
     def ClearBackupDir(self):
         # 清理不存在文件夹

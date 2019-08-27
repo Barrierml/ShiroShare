@@ -2,18 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7f365fe6-e073-4bfe-ac76-a1ff868cd67e" name="Default Changelist" comment="做了文件管理的雏形">
-      <change afterPath="$PROJECT_DIR$/core/Net.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/core/backgroud_thread.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/t.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test_windwos.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/D_C.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Net.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ShiroDB" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/main_windows.py" beforeDir="false" afterPath="$PROJECT_DIR$/main_windows.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mysql.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/mysql.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/os_cope.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/os_cope.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/watch.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/watch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/123" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/Net.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/Net.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/ShiroDB" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/backgroud_thread.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/backgroud_thread.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/core/watch.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/watch.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/t.py" beforeDir="false" afterPath="$PROJECT_DIR$/t.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tools/mysql.py" beforeDir="false" afterPath="$PROJECT_DIR$/tools/mysql.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -29,8 +27,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tools/os_cope.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="177" column="16" selection-start-line="177" selection-start-column="16" selection-end-line="177" selection-end-column="16" />
+            <state relative-caret-position="4715">
+              <caret line="207" selection-start-line="207" selection-end-line="207" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -41,8 +39,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/model.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="615">
-              <caret line="466" column="29" lean-forward="true" selection-start-line="466" selection-start-column="29" selection-end-line="466" selection-end-column="29" />
+            <state relative-caret-position="23">
+              <caret line="273" column="8" selection-start-line="273" selection-start-column="8" selection-end-line="273" selection-end-column="8" />
               <folding>
                 <element signature="e#0#20#0" expanded="true" />
               </folding>
@@ -53,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/watch.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="180">
-              <caret line="111" column="35" lean-forward="true" selection-start-line="111" selection-start-column="35" selection-end-line="111" selection-end-column="35" />
+            <state relative-caret-position="502">
+              <caret line="109" column="39" selection-start-line="109" selection-start-column="39" selection-end-line="109" selection-end-column="39" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -62,11 +60,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/Net.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="206" column="43" lean-forward="true" selection-start-line="206" selection-start-column="43" selection-end-line="206" selection-end-column="43" />
+            <state relative-caret-position="1054">
+              <caret line="103" column="26" lean-forward="true" selection-start-line="103" selection-start-column="26" selection-end-line="103" selection-end-column="26" />
               <folding>
                 <element signature="e#0#43#0" expanded="true" />
               </folding>
@@ -74,11 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/t.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1099">
-              <caret line="18" column="26" lean-forward="true" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
+            <state relative-caret-position="295">
+              <caret line="153" column="45" lean-forward="true" selection-start-line="153" selection-start-column="45" selection-end-line="153" selection-end-column="45" />
               <folding>
                 <element signature="e#0#13#0" expanded="true" />
               </folding>
@@ -89,8 +87,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/backgroud_thread.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="322">
-              <caret line="32" column="27" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
+            <state relative-caret-position="258">
+              <caret line="63" column="36" lean-forward="true" selection-start-line="63" selection-start-column="36" selection-end-line="63" selection-end-column="36" />
               <folding>
                 <element signature="e#0#26#0" expanded="true" />
               </folding>
@@ -101,8 +99,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tools/mysql.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="249">
-              <caret line="212" column="28" selection-start-line="212" selection-start-column="28" selection-end-line="212" selection-end-column="28" />
+            <state relative-caret-position="281">
+              <caret line="116" column="24" selection-start-line="116" selection-start-column="17" selection-end-line="116" selection-end-column="24" />
             </state>
           </provider>
         </entry>
@@ -167,7 +165,6 @@
         <option value="$PROJECT_DIR$/ttt.py" />
         <option value="$PROJECT_DIR$/Communication.py" />
         <option value="$PROJECT_DIR$/watch.py" />
-        <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/D_C.py" />
         <option value="$PROJECT_DIR$/os_cope.py" />
         <option value="$PROJECT_DIR$/mysql.py" />
@@ -175,12 +172,13 @@
         <option value="$PROJECT_DIR$/Net.py" />
         <option value="$PROJECT_DIR$/Config.json" />
         <option value="$PROJECT_DIR$/main_windows.py" />
-        <option value="$PROJECT_DIR$/core/model.py" />
-        <option value="$PROJECT_DIR$/core/Net.py" />
         <option value="$PROJECT_DIR$/tools/os_cope.py" />
-        <option value="$PROJECT_DIR$/t.py" />
+        <option value="$PROJECT_DIR$/README.md" />
+        <option value="$PROJECT_DIR$/core/model.py" />
         <option value="$PROJECT_DIR$/core/watch.py" />
+        <option value="$PROJECT_DIR$/core/Net.py" />
         <option value="$PROJECT_DIR$/tools/mysql.py" />
+        <option value="$PROJECT_DIR$/t.py" />
         <option value="$PROJECT_DIR$/core/backgroud_thread.py" />
       </list>
     </option>
@@ -199,6 +197,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -210,7 +209,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -248,7 +246,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.mysql">
+  <component name="RunManager" selected="Python.t">
     <configuration name="backgroud_thread" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="ShiroShare" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -356,9 +354,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.mysql" />
         <item itemvalue="Python.t" />
         <item itemvalue="Python.backgroud_thread" />
+        <item itemvalue="Python.mysql" />
         <item itemvalue="Python.os_cope" />
         <item itemvalue="Python.watch" />
       </list>
@@ -398,19 +396,19 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.7021739" visible="true" weight="0.1592262" />
-      <window_info id="Structure" order="1" sideWeight="0.50121063" side_tool="true" weight="0.16071428" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.5804348" visible="true" weight="0.1592262" />
+      <window_info id="Structure" order="1" sideWeight="0.41956523" side_tool="true" visible="true" weight="0.1592262" />
       <window_info id="Favorites" order="2" sideWeight="0.29782608" side_tool="true" weight="0.1592262" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3295082" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.48511904" weight="0.24590164" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49107143" visible="true" weight="0.24590164" />
       <window_info anchor="bottom" id="Debug" order="3" sideWeight="0.49925596" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.3295082" />
       <window_info anchor="bottom" id="Version Control" order="7" sideWeight="0.4985119" weight="0.3295082" />
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49925596" weight="0.3295082" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50074404" side_tool="true" weight="0.24590164" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.5089286" side_tool="true" weight="0.24590164" />
       <window_info anchor="bottom" id="Python Console" order="10" show_stripe_button="false" weight="0.3295082" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -462,7 +460,6 @@
     <option name="LAST_COMMIT_MESSAGE" value="做了文件管理的雏形" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-566803182/nt.py" />
     <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-566803182/_ssl.py" />
     <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-566803182/PyQt5/QtWidgets/QLayout.py" />
     <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/-566803182/PyQt5/QtWidgets/QWidget.py" />
@@ -569,13 +566,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/272280543/PyQt5/QtCore/QThread.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="144">
-          <caret line="134" column="8" selection-start-line="134" selection-start-column="8" selection-end-line="134" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/shiroshare_thread.py" />
     <entry file="file://$PROJECT_DIR$/hhh.py" />
     <entry file="file://$PROJECT_DIR$/main_ui.py">
@@ -640,26 +630,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tt2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="18" column="4" selection-start-line="18" selection-start-column="4" selection-end-line="18" selection-end-column="4" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/README.md">
-      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
-        <state split_layout="SPLIT">
-          <first_editor relative-caret-position="115">
-            <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-          </first_editor>
-          <second_editor />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/json/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="272">
@@ -705,30 +675,64 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/core/model.py">
+    <entry file="file://$USER_HOME$/.PyCharmCE2019.1/system/python_stubs/272280543/PyQt5/QtCore/QThread.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="615">
-          <caret line="466" column="29" lean-forward="true" selection-start-line="466" selection-start-column="29" selection-end-line="466" selection-end-column="29" />
+        <state relative-caret-position="322">
+          <caret line="17" column="39" lean-forward="true" selection-start-line="17" selection-start-column="39" selection-end-line="17" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="161">
+            <caret line="7" column="9" lean-forward="true" selection-start-line="7" selection-start-column="9" selection-end-line="7" selection-end-column="9" />
+          </first_editor>
+          <second_editor />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tt2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="20" column="63" lean-forward="true" selection-start-line="20" selection-start-column="63" selection-end-line="20" selection-end-column="63" />
           <folding>
-            <element signature="e#0#20#0" expanded="true" />
+            <element signature="e#0#27#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/site-packages/apscheduler/schedulers/background.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="69">
+          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tools/os_cope.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="177" column="16" selection-start-line="177" selection-start-column="16" selection-end-line="177" selection-end-column="16" />
+        <state relative-caret-position="4715">
+          <caret line="207" selection-start-line="207" selection-end-line="207" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/core/model.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="23">
+          <caret line="273" column="8" selection-start-line="273" selection-start-column="8" selection-end-line="273" selection-end-column="8" />
+          <folding>
+            <element signature="e#0#20#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/core/watch.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="111" column="35" lean-forward="true" selection-start-line="111" selection-start-column="35" selection-end-line="111" selection-end-column="35" />
+        <state relative-caret-position="502">
+          <caret line="109" column="39" selection-start-line="109" selection-start-column="39" selection-end-line="109" selection-end-column="39" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
@@ -737,25 +741,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tools/mysql.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="212" column="28" selection-start-line="212" selection-start-column="28" selection-end-line="212" selection-end-column="28" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/t.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1099">
-          <caret line="18" column="26" lean-forward="true" selection-start-line="18" selection-start-column="26" selection-end-line="18" selection-end-column="26" />
-          <folding>
-            <element signature="e#0#13#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="281">
+          <caret line="116" column="24" selection-start-line="116" selection-start-column="17" selection-end-line="116" selection-end-column="24" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/backgroud_thread.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="32" column="27" selection-start-line="32" selection-start-column="27" selection-end-line="32" selection-end-column="27" />
+        <state relative-caret-position="258">
+          <caret line="63" column="36" lean-forward="true" selection-start-line="63" selection-start-column="36" selection-end-line="63" selection-end-column="36" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
@@ -764,10 +758,20 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/core/Net.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="206" column="43" lean-forward="true" selection-start-line="206" selection-start-column="43" selection-end-line="206" selection-end-column="43" />
+        <state relative-caret-position="1054">
+          <caret line="103" column="26" lean-forward="true" selection-start-line="103" selection-start-column="26" selection-end-line="103" selection-end-column="26" />
           <folding>
             <element signature="e#0#43#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/t.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="153" column="45" lean-forward="true" selection-start-line="153" selection-start-column="45" selection-end-line="153" selection-end-column="45" />
+          <folding>
+            <element signature="e#0#13#0" expanded="true" />
           </folding>
         </state>
       </provider>

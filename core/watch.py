@@ -60,8 +60,21 @@ class Watch(threading.Thread):
         file = self.model.FindFile(name+suffix)
         # 如果不为空就备份
         if file != None:
-            print("{}备份一次".format(name+suffix))
-            file.Backup()
+            w = file.Backup()
+            if w != None:
+                self.Queue.put({
+                    "type":"MODI_FILE",
+                                    "data": {
+                    "_id": w.id,
+                    "FileName": w.name,
+                    "suffix": w.suffix,
+                    "md5": w.md5,
+                    "belong_dir": self.model.id,
+                    "end_time": w.EndBackupTime
+                },
+                    "DirId": self.model.id,
+                })
+
     def on_moved(self,event):
         # 改名，移动，还是有很多种的
         _,name,suffix = oc.get_file_all(event.src_path)
@@ -70,23 +83,63 @@ class Watch(threading.Thread):
             _, new_name, new_suffix = oc.get_file_all(event.dest_path)
             time.sleep(0.5)
             if os.path.exists(event.dest_path):
-                print("修改文件名")
+                # word类文件的自动保存
                 file.name = new_name
                 file.suffix = new_suffix
-                file.Backup()
+                w = file.Backup()
+                self.Queue.put({
+                    "type":"MODI_FILE",
+                                    "data": {
+                    "_id": w.id,
+                    "FileName": w.name,
+                    "suffix": w.suffix,
+                    "md5": w.md5,
+                    "belong_dir": self.model.id,
+                    "end_time": w.EndBackupTime
+                },
+                    "DirId": self.model.id,
+                })
             else:
-                print("啊啊啊啊啊")
-                file.Backup()
+                # 改名
+                w = file.Backup()
+                self.Queue.put({
+                    "type":"MODI_FILE",
+                "data": {
+                    "_id": w.id,
+                    "FileName": w.name,
+                    "suffix": w.suffix,
+                    "md5": w.md5,
+                    "belong_dir": self.model.id,
+                    "end_time": w.EndBackupTime
+                },
+                    "DirId": self.model.id,
+                })
     def on_created(self,event):
         # 添加一个文件
         time.sleep(0.5)
         if os.path.exists(event.src_path):
-            print("添加一个文件{}".format(event.src_path))
-            self.model.AddFile(event.src_path)
+            w = self.model.AddFile(event.src_path)
+            self.Queue.put({
+                "type": "ADD_FILE",
+                "data": {
+                    "_id": w.id,
+                    "FileName": w.name,
+                    "suffix": w.suffix,
+                    "md5": w.md5,
+                    "belong_dir": self.model.id,
+                    "end_time": w.EndBackupTime
+                },
+                "DirId": self.model.id,
+            })
     def on_deleted(self,event):
         _, name, suffix = oc.get_file_all(event.src_path)
-        if self.model.DelFile(name+suffix):
-            print("删除一个文件{}".format(event.src_path))
+        w = self.model.DelFile(name+suffix)
+        if w:
+            self.Queue.put({
+                "type": "DEL_FILE",
+                "data": w,
+                "DirId":self.model.id,
+            })
     def search(self,fileid):
         # 通过id返回备份的文件
         return self.model.search(fileid)
@@ -120,7 +173,8 @@ class Watch(threading.Thread):
             # 我无论怎么传递参数都不变，才发现是python的指针问题，喷血。。。不过也算是解决了
             self.Queue.put({
                 "type":"All_list",
-                "data":dd
+                "data":dd,
+                "DirId":self.model.id,
             })
 class MyHandler(FileSystemEventHandler):
     def __init__(self,queue:Queue):

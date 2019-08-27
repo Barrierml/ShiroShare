@@ -14,7 +14,7 @@ RecvSocketPort = 6543
 # 表明身份   文件传输   心跳   更改文件   传输文件列表   确认
 #
 #
-class ShiroRecv(QThread):
+class ShiroRecv(threading.Thread):
     def __init__(self,queue,Port=RecvSocketPort):
         super(ShiroRecv,self).__init__()
         self.RecvSocket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
@@ -27,14 +27,9 @@ class ShiroRecv(QThread):
         except Exception as e:
             print(e)
             return False
-    def SayHello(self):
-        # 向局域网内广播自己
-        self.LoadBar.emit("局域网广播中")
-        self.Send.Broadcast("HALO", data=self.data)
-        # 发送信号初始化完毕
     def run(self):
         # 受支持的类型
-        _method_map = [b"HALO",b"FILE",b"BEAT",b"CHEN",b"LIST",b"ACKN",b"USER",]
+        _method_map = [b"HALO",b"GEHA",b"FILE",b"LIST",b"GELI",b"ACKN"]
         while True:
             # 堵塞接收
             try:
@@ -57,75 +52,8 @@ class ShiroRecv(QThread):
             except Exception as e:
                 print(e)
                 continue
-    def on_HALO(self,data,addr):
-        # 收到别人的用户信息,返回一个自己的用户信息
-        print("收到一个新成员")
-        if not self.sql.InUsers(data.get("id")):
-            # 新成员加入
-            self.sql.AddUser(data.get("id"),data.get("name"),addr[0])
-            # 向他发送打招呼信息
-            self.Send.SendTo(addr[0],"HALO",self.data)
-            # 向他发送本机文件列表
-            self.Send.SendTo(addr[0],"LIST",self.data)
-        else:
-            self.sql.ChangeUser(data.get("id"),{"Name":data.get("name"),"ip":addr[0],"end_life_time":time.time()})
-    def on_USER(self,data,addr):
-        # 修改用户信息
-        if self.sql.InUsers(data["id"]):
-            self.sql.ChangeUser(data.get("id"),{"Name":data.get("name"),"ip":addr[0],"end_life_time":time.time()})
-
-    def on_FILE(self,data,addr):
-        print("收到一个请求文件的东西")
-        file_id = data.get("GetId")
-        ackid = data.get("AckId")
-        ip = addr[0]
-        url,md5,ttt = self.model.search(file_id)
-        port = oc.RngPort(self.FilePort)
-        thread = FileSend(url,port)
-        thread.start()
-        self.Send.SendTo(ip,"ACKN",{
-            "port":thread.port,
-            "md5":md5,
-            "time":ttt,
-            "AckId":ackid,
-        })
-    def on_ACKN(self,data,addr):
-        # 收到确认包，开启接收接收
-        port = data.get("port")
-        tt = data.get("time")
-        md5 = data.get("md5")
-        ackid = data.get("AckId")
-        filedata = None
-        for i in self.WaitAckFiles:
-            if i.get("AckId") == ackid:
-                filedata = i.get("File")
-                self.WaitAckFiles.remove(i)
-        if filedata == None:
-            return
-        url = oc.path_join(self.data.get("dir_url"),filedata.get("FileName")+filedata.get("suffix"))
-        filedata["url"] = url
-        def f(o):
-            return filedata.get(o)
-        self.sql.AddFile(f("_id"),f("FileName"),f("suffix"),f("md5"),f("belong_dir"),f("owner"),url,f("end_time"))
-        thread = FileRecv(addr[0],port,filedata)
-        thread.start()
-    def RecvOver(self):
-        # 接收完毕,实际上还是在子进程内进行操作文件
-        pass
-    def on_BEAT(self,data,addr):
-        pass
-    def on_CHEN(self,data,addr):
-        pass
-    def Send_LIST(self,dd:dict):
-        # 向局域网所有人发送自身的分享列表
-        print(dd)
     def close(self):
         self.RecvSocket.close()
-    @property
-    def AckId(self):
-        # 确认包的id
-        self.ACKID += 1
-        return self.ACKID
 class SendMessage:
     """主要是用来发送或者广播消息
         经过查询资料，发现发送udp包不会阻塞,就不需要再开进程了
